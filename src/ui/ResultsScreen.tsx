@@ -20,6 +20,10 @@ interface Props {
   route: RouteResult;
   departure: Date;
   onBack: () => void;
+  /** Recalculate the trip in the opposite direction, at the selected time. */
+  onReverse: (departure: Date) => void;
+  busy?: boolean;
+  error?: string;
 }
 
 const CLASS_LABEL: Record<SunClass, string> = {
@@ -46,7 +50,16 @@ function bestSideSun(a: RouteAnalysis): number {
   return Math.min(a.exposureSec.right, a.exposureSec.left);
 }
 
-export function ResultsScreen({ from, to, route, departure, onBack }: Props) {
+export function ResultsScreen({
+  from,
+  to,
+  route,
+  departure,
+  onBack,
+  onReverse,
+  busy,
+  error,
+}: Props) {
   const [departures, setDepartures] = useState<Date[]>([departure]);
   const [selected, setSelected] = useState(0);
   const [cursorFrac, setCursorFrac] = useState(0);
@@ -120,6 +133,20 @@ export function ResultsScreen({ from, to, route, departure, onBack }: Props) {
           {formatDistance(route.distanceMeters)}
         </div>
       </section>
+
+      <button
+        type="button"
+        className="secondary-btn"
+        disabled={busy}
+        onClick={() => onReverse(dep)}
+      >
+        ⇄ {busy ? he.calculating : he.reverse}
+      </button>
+      {error && (
+        <div className="error" role="alert">
+          {error}
+        </div>
+      )}
 
       <RouteMap steps={a.steps} cursor={cursor} />
 

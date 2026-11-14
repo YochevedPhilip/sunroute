@@ -35,6 +35,7 @@ export const he = {
   errorMapsLoad: "לא ניתן לטעון את המפה",
 
   back: "חזרה",
+  reverse: "כיוון הפוך (נסיעה חזרה)",
   results: "תוצאות",
   recommendRight: "שבו בצד ימין – פחות שמש",
   recommendLeft: "שבו בצד שמאל – פחות שמש",

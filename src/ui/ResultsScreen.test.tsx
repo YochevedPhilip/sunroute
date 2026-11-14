@@ -12,8 +12,10 @@ describe("ResultsScreen (demo trip)", () => {
         route={DEMO_ROUTE}
         departure={new Date("2026-11-14T13:00:00Z")}
         onBack={() => {}}
+        onReverse={() => {}}
       />,
     );
+    expect(html).toContain("כיוון הפוך");
     // northbound in the afternoon: sit on the right
     expect(html).toContain("שבו בצד ימין");
     expect(html).toContain("<svg");
@@ -30,6 +32,7 @@ describe("ResultsScreen (demo trip)", () => {
         route={DEMO_ROUTE}
         departure={new Date("2026-11-14T22:00:00Z")}
         onBack={() => {}}
+        onReverse={() => {}}
       />,
     );
     expect(html).toContain("הנסיעה בלילה");

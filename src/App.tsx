@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { he } from "./i18n/he";
+import { hasGoogleKey } from "./maps/loader";
 import { DEMO_FROM, DEMO_ROUTE, DEMO_TO } from "./routing/demo";
 import { googleRouteProvider } from "./routing/google";
 import { RouteError, type PlaceRef, type RouteResult } from "./routing/types";
@@ -52,11 +53,33 @@ export default function App() {
     setTrip({ from: DEMO_FROM, to: DEMO_TO, route: DEMO_ROUTE, departure: d });
   };
 
+  const reverse = async (departure: Date) => {
+    if (!trip) return;
+    if (!hasGoogleKey) {
+      // demo mode: just walk the same line backwards
+      setTrip({
+        from: trip.to,
+        to: trip.from,
+        route: { ...trip.route, points: [...trip.route.points].reverse() },
+        departure,
+      });
+      return;
+    }
+    // A new route is needed: the way back can differ from the way there.
+    await calculate(trip.to, trip.from, departure);
+  };
+
   return trip ? (
     <ResultsScreen
       key={`${trip.departure.getTime()}-${trip.from.text}-${trip.to.text}`}
       {...trip}
-      onBack={() => setTrip(null)}
+      busy={busy}
+      error={error}
+      onReverse={reverse}
+      onBack={() => {
+        setError("");
+        setTrip(null);
+      }}
     />
   ) : (
     <SearchScreen busy={busy} error={error} onSubmit={calculate} onDemo={demo} />

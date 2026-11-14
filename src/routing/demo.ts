@@ -1,4 +1,4 @@
-import type { PlaceRef, RouteResult } from "./types";
+import type { BusOption, PlaceRef, RouteResult } from "./types";
 
 /** A rough Tel Aviv -> Haifa route along the coast, used for demo mode only. */
 export const DEMO_FROM: PlaceRef = {
@@ -24,3 +24,28 @@ export const DEMO_ROUTE: RouteResult = {
   durationSec: 4200,
   distanceMeters: 95000,
 };
+
+/** Demo bus options: the same road, as a made-up line. */
+export function demoBusOptions(departure: Date): BusOption[] {
+  const mk = (offsetMin: number, line: string): BusOption => {
+    const dep = new Date(departure.getTime() + offsetMin * 60_000);
+    const arr = new Date(dep.getTime() + 4800 * 1000);
+    return {
+      departure: dep,
+      arrival: arr,
+      legs: [
+        {
+          vehicle: "BUS",
+          line,
+          headsign: "חיפה",
+          fromStop: "ת. מרכזית תל אביב",
+          toStop: "חיפה מרכז השמונה",
+          departure: dep,
+          arrival: arr,
+          points: DEMO_ROUTE.points,
+        },
+      ],
+    };
+  };
+  return [mk(5, "אקספרס 1"), mk(35, "אקספרס 2")];
+}

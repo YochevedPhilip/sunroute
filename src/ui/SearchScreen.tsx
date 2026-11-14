@@ -10,15 +10,21 @@ interface Props {
   busy: boolean;
   error: string;
   onSubmit: (from: PlaceRef, to: PlaceRef, departure: Date) => void;
+  onSubmitBus: (from: PlaceRef, to: PlaceRef, departure: Date, line: string) => void;
   onDemo: () => void;
+  onDemoBus: () => void;
 }
 
-export function SearchScreen({ busy, error, onSubmit, onDemo }: Props) {
+type Mode = "car" | "bus";
+
+export function SearchScreen({ busy, error, onSubmit, onSubmitBus, onDemo, onDemoBus }: Props) {
   const now = new Date();
+  const [mode, setMode] = useState<Mode>("car");
   const [from, setFrom] = useState<PlaceRef | null>(null);
   const [to, setTo] = useState<PlaceRef | null>(null);
   const [date, setDate] = useState(toDateInput(now));
   const [time, setTime] = useState(toTimeInput(now));
+  const [line, setLine] = useState("");
   const [localError, setLocalError] = useState("");
   const trips = loadRecentTrips();
 
@@ -27,7 +33,9 @@ export function SearchScreen({ busy, error, onSubmit, onDemo }: Props) {
     if (!from || !to) return setLocalError(he.errorNeedBoth);
     if (from.placeId && from.placeId === to.placeId) return setLocalError(he.errorSamePlace);
     setLocalError("");
-    onSubmit(from, to, fromInputs(date, time));
+    const when = fromInputs(date, time);
+    if (mode === "bus") onSubmitBus(from, to, when, line.trim());
+    else onSubmit(from, to, when);
   };
 
   const swap = () => {
@@ -57,8 +65,28 @@ export function SearchScreen({ busy, error, onSubmit, onDemo }: Props) {
           <button type="button" className="secondary-btn" onClick={onDemo}>
             {he.demo}
           </button>
+          <button type="button" className="secondary-btn" onClick={onDemoBus}>
+            {he.demoBus}
+          </button>
         </section>
       )}
+
+      <div className="mode-switch" role="group" aria-label="סוג נסיעה">
+        <button
+          type="button"
+          aria-pressed={mode === "car"}
+          onClick={() => setMode("car")}
+        >
+          🚗 {he.modeCar}
+        </button>
+        <button
+          type="button"
+          aria-pressed={mode === "bus"}
+          onClick={() => setMode("bus")}
+        >
+          🚌 {he.modeBus}
+        </button>
+      </div>
 
       <form onSubmit={submit} className="card">
         <PlaceInput
@@ -86,10 +114,26 @@ export function SearchScreen({ busy, error, onSubmit, onDemo }: Props) {
           </label>
         </div>
 
+        {mode === "bus" && (
+          <>
+            <label className="field">
+              <span className="label">{he.lineNumber}</span>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={line}
+                placeholder={he.linePlaceholder}
+                onChange={(e) => setLine(e.target.value)}
+              />
+            </label>
+            <p className="hint">{he.busHint}</p>
+          </>
+        )}
+
         {(localError || error) && <div className="error" role="alert">{localError || error}</div>}
 
         <button type="submit" className="primary-btn" disabled={busy || !hasGoogleKey}>
-          {busy ? he.calculating : he.calculate}
+          {busy ? he.calculating : mode === "bus" ? he.searchBus : he.calculate}
         </button>
       </form>
 

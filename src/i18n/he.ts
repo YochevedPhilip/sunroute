@@ -1,0 +1,85 @@
+/** All user-visible Hebrew texts in one place. */
+export const he = {
+  appName: "SunRoute",
+  tagline: "באיזה צד של הרכב יש שמש?",
+
+  from: "מוצא",
+  to: "יעד",
+  fromPlaceholder: "מאיפה יוצאים?",
+  toPlaceholder: "לאן נוסעים?",
+  swap: "החלף מוצא ויעד",
+  myLocation: "המיקום שלי",
+  locating: "מאתר מיקום…",
+  locationFailed: "לא הצלחנו לאתר את המיקום",
+  date: "תאריך",
+  time: "שעת יציאה",
+  calculate: "חשב מסלול",
+  calculating: "מחשב…",
+  recentPlaces: "מקומות אחרונים",
+  savedPlaces: "מקומות שמורים",
+  recentTrips: "נסיעות אחרונות",
+  save: "שמור מקום",
+  unsave: "הסר מהשמורים",
+  noResultsForSearch: "לא נמצאו תוצאות",
+
+  missingKeyTitle: "חסר מפתח Google",
+  missingKeyBody:
+    "כדי לחפש כתובות ולקבל מסלול צריך מפתח Google. אפשר לנסות את האפליקציה עכשיו עם נסיעה לדוגמה.",
+  demo: "נסיעה לדוגמה: תל אביב – חיפה",
+
+  errorNeedBoth: "צריך לבחור מוצא ויעד מהרשימה",
+  errorSamePlace: "המוצא והיעד זהים",
+  errorNoRoute: "לא נמצא מסלול נסיעה בין המקומות",
+  errorNetwork: "אין חיבור לרשת או שהשירות לא זמין. נסו שוב.",
+  errorApi: "שגיאה בשירות המסלולים",
+  errorMapsLoad: "לא ניתן לטעון את המפה",
+
+  back: "חזרה",
+  results: "תוצאות",
+  recommendRight: "שבו בצד ימין – פחות שמש",
+  recommendLeft: "שבו בצד שמאל – פחות שמש",
+  recommendNone: "אין הבדל ברור בין הצדדים",
+  recommendNight: "הנסיעה בלילה – אין שמש ישירה",
+  recommendNoSide: "השמש בעיקר מקדימה או מאחור – אין צד עדיף",
+  departureAt: "יציאה",
+  duration: "משך נסיעה",
+  distance: "מרחק",
+
+  right: "ימין",
+  left: "שמאל",
+  front: "מקדימה",
+  behind: "מאחור",
+  night: "אין שמש",
+
+  sunOnRight: "שמש בצד ימין",
+  sunOnLeft: "שמש בצד שמאל",
+  sunInFront: "שמש מקדימה",
+  sunBehind: "שמש מאחור",
+  sunDown: "השמש מתחת לאופק",
+  sunHeight: "גובה השמש",
+  sunDirection: "כיוון השמש",
+  position: "מיקום במסלול",
+  positionHint: "גררו כדי לראות את השמש בכל נקודה בדרך",
+
+  summary: "סיכום הנסיעה",
+  ofJourney: "מהנסיעה",
+  minutes: "דק׳",
+  hours: "שע׳",
+  exposure: "חשיפה משוערת",
+  exposureHint: "משוקללת לפי גובה השמש וזווית הכניסה לחלונות",
+
+  compare: "השוואת שעות יציאה",
+  addTime: "הוסף שעה",
+  removeTime: "הסר",
+  bestOption: "הכי טוב",
+  earlier30: "30 דק׳ קודם",
+  later30: "30 דק׳ אחר כך",
+  lessSun: "פחות שמש",
+
+  estimateNote:
+    "זו הערכה לפי מיקום השמש וכיוון הנסיעה. צל של בניינים, עצים, הרים וענן לא נכלל, וגם לא סוג הרכב או הזכוכית.",
+
+  install: "להתקנה: שיתוף ← הוסף למסך הבית",
+
+  legend: "מקרא",
+} as const;
